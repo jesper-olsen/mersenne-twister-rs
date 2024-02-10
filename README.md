@@ -1,7 +1,7 @@
 mersenne-twister-rs
 ==============
 
-Pseudo random number generator [1] based on the [64-bit Mersenne Twister][2].
+[Pseudo random number generator][1] based on the [64-bit Mersenne Twister][2].
 Rust port from [C][3][4] 
 
 References
@@ -11,7 +11,7 @@ References
 - [Tables of 64-bit Mersenne Twisters by TAKUJI NISHIMURA][3]
 - [C code][4]
 
-[1]:
+[1]: AOCP
 [2]: https://en.wikipedia.org/wiki/Mersenne_Twister
 [3]: https://dl.acm.org/doi/pdf/10.1145/369534.369540
 [4]: http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c
