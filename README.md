@@ -1,15 +1,15 @@
 mersenne-twister-rs
 ==============
 
-[Pseudo random number generator][1] based on the [64-bit Mersenne Twister][2].
-Rust port from [C][3][4] 
+Pseudo random number generator [1] based on the [64-bit Mersenne Twister][2].
+Rust port from C original [3][4].
 
 References
 ----------
-[1]: https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming "The Art of Computer Programming, Donald E. Knuth, Vol. 2, Chapter 3"
-[2]: https://en.wikipedia.org/wiki/Mersenne_Twister "Mersenne Twister"
-[3]: https://dl.acm.org/doi/pdf/10.1145/369534.369540 "Tables of 64-bit Mersenne Twisters by TAKUJI NISHIMURA"
-[4]: http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c "C code"
+[1]: [The Art of Computer Programming, Donald E. Knuth, Vol. 2, Chapter 3](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming) <br/>
+[2]: [Mersenne Twister] (https://en.wikipedia.org/wiki/Mersenne_Twister) <br/>
+[3]: [Tables of 64-bit Mersenne Twisters by TAKUJI NISHIMURA](https://dl.acm.org/doi/pdf/10.1145/369534.369540) <br/>
+[4]: [C code](http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c)
 
 
 Run
