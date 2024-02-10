@@ -1,7 +1,7 @@
 mersenne-twister-rs
 ==============
 
-Pseudo random number generator [1] based on the [64-bit Mersenne Twister][2].
+Pseudo random number generator [1] based on the 64-bit Mersenne Twister [2].
 Rust port from C original [3][4].
 
 References
