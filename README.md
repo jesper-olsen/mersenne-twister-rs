@@ -7,8 +7,11 @@ Rust implementation translated from the C implementation by Takuji Nishimura and
 References
 ----------
 [1] The Art of Computer Programming, Donald E. Knuth, Vol. 2, Chapter 3
+
 [2] [Wikipedia](https://en.wikipedia.org/wiki/Mersenne_Twister)
+
 [3] [Tables of 64-bit Mersenne Twisters by TAKUJI NISHIMURA](https://dl.acm.org/doi/pdf/10.1145/369534.369540)
+
 [4] [C code](http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c)
 
 Run
