@@ -7,7 +7,7 @@ Rust port from C original [3][4].
 References
 ----------
 [1]: [The Art of Computer Programming, Donald E. Knuth, Vol. 2, Chapter 3](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming) <br/>
-[2]: [Mersenne Twister] (https://en.wikipedia.org/wiki/Mersenne_Twister) <br/>
+[2]: [Mersenne Twister](https://en.wikipedia.org/wiki/Mersenne_Twister) <br/>
 [3]: [Tables of 64-bit Mersenne Twisters by TAKUJI NISHIMURA](https://dl.acm.org/doi/pdf/10.1145/369534.369540) <br/>
 [4]: [C code](http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c)
 
