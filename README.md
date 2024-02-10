@@ -6,15 +6,11 @@ Rust port from [C][3][4]
 
 References
 ----------
-- [The Art of Computer Programming, Donald E. Knuth, Vol. 2, Chapter 3][1]
-- [Wikipedia][2]
-- [Tables of 64-bit Mersenne Twisters by TAKUJI NISHIMURA][3]
-- [C code][4]
-
-[1]: https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming "AOCP"
+[1]: https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming "The Art of Computer Programming, Donald E. Knuth, Vol. 2, Chapter 3"
 [2]: https://en.wikipedia.org/wiki/Mersenne_Twister "Mersenne Twister"
-[3]: https://dl.acm.org/doi/pdf/10.1145/369534.369540
+[3]: https://dl.acm.org/doi/pdf/10.1145/369534.369540 "Tables of 64-bit Mersenne Twisters by TAKUJI NISHIMURA"
 [4]: http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c "C code"
+
 
 Run
 -----
