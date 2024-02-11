@@ -214,7 +214,7 @@ impl MersenneTwister64 {
         let mut j = 0;
         for _ in 0..std::cmp::max(NN, a.len()) {
             mt.v[i] = (mt.v[i]
-                ^ ((mt.v[i - 1] ^ (mt.v[i - 1] >> 62)).wrapping_mul(3935559000370003845u64)))
+                ^ ((mt.v[i - 1] ^ (mt.v[i - 1].wrapping_shr(62))).wrapping_mul(3935559000370003845)))
                 .wrapping_add(a[j])
                 .wrapping_add(j as u64);
             j = (j + 1) % a.len();
@@ -226,8 +226,8 @@ impl MersenneTwister64 {
         }
         for _ in 0..NN - 1 {
             mt.v[i] = (mt.v[i]
-                ^ ((mt.v[i - 1] ^ (mt.v[i - 1] >> 62)).wrapping_mul(2862933555777941757)))
-                .wrapping_sub(i as u64);
+                ^ ((mt.v[i - 1] ^ (mt.v[i - 1].wrapping_shr(62))).wrapping_mul(2862933555777941757)))
+                .wrapping_sub(i as u64); // non linear
             i += 1;
             if i >= NN {
                 mt.v[0] = mt.v[NN - 1];
