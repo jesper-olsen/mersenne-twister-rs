@@ -200,26 +200,19 @@ struct MersenneTwister64 {
 }
 
 impl MersenneTwister64 {
-    pub const fn new(seed: u64) -> Self {
+    pub fn new(seed: u64) -> Self {
         let mut v = [seed; NN];
-        let mut i: usize = 1;
-        while i < NN {
+        for i in 1..NN {
             v[i] = (v[i - 1] ^ (v[i - 1] >> 62)).wrapping_mul(6364136223846793005) + i as u64;
-            i += 1;
         }
         MersenneTwister64 { v, i: NN }
     }
 
     pub fn new_init_by_array(a: &[u64]) -> Self {
         let mut mt = MersenneTwister64::new(19650218);
-        let mut k = if NN > a.len() {
-            NN
-        } else {
-            a.len()
-        };
         let mut i = 1;
         let mut j = 0;
-        for _ in 0..k {
+        for _ in 0..std::cmp::max(NN,a.len()) {
             mt.v[i] = (mt.v[i] ^ ((mt.v[i - 1] ^ (mt.v[i - 1] >> 62)).wrapping_mul(3935559000370003845u64)))
                 + a[j]
                 + TryInto::<u64>::try_into(j).unwrap(); // non linear
