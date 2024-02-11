@@ -201,7 +201,8 @@ struct MersenneTwister64 {
 
 impl MersenneTwister64 {
     pub fn new(seed: u64) -> Self {
-        let mut v = [seed; NN];
+        let mut v = [0; NN];
+        v[0]=seed;
         for i in 1..NN {
             v[i] = (v[i - 1] ^ (v[i - 1] >> 62)).wrapping_mul(6364136223846793005) + i as u64;
         }
