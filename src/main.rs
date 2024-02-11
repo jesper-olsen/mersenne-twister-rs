@@ -1,4 +1,4 @@
-//! Rust implementation of a 64-bit Mersenne Twister 
+//! Rust implementation of a 64-bit Mersenne Twister
 //! https://en.wikipedia.org/wiki/Mersenne_Twister
 //! https://dl.acm.org/doi/pdf/10.1145/369534.369540
 //!
@@ -70,15 +70,15 @@
 
 
 /* The array for the state vector */
-static unsigned long long mt[NN]; 
+static unsigned long long mt[NN];
 /* mti==NN+1 means mt[NN] is not initialized */
-static int mti=NN+1; 
+static int mti=NN+1;
 
 /* initializes mt[NN] with a seed */
 void init_genrand64(unsigned long long seed)
 {
     mt[0] = seed;
-    for (mti=1; mti<NN; mti++) 
+    for (mti=1; mti<NN; mti++)
         mt[mti] =  (6364136223846793005ULL * (mt[mti-1] ^ (mt[mti-1] >> 62)) + mti);
 }
 
@@ -86,7 +86,7 @@ void init_genrand64(unsigned long long seed)
 /* init_key is the array for initializing keys */
 /* key_length is its length */
 void init_by_array64(unsigned long long init_key[],
-		     unsigned long long key_length)
+             unsigned long long key_length)
 {
     unsigned long long i, j, k;
     init_genrand64(19650218ULL);
@@ -106,7 +106,7 @@ void init_by_array64(unsigned long long init_key[],
         if (i>=NN) { mt[0] = mt[NN-1]; i=1; }
     }
 
-    mt[0] = 1ULL << 63; /* MSB is 1; assuring non-zero initial array */ 
+    mt[0] = 1ULL << 63; /* MSB is 1; assuring non-zero initial array */
 }
 
 /* generates a random number on [0, 2^64-1]-interval */
@@ -120,8 +120,8 @@ unsigned long long genrand64_int64(void)
 
         /* if init_genrand64() has not been called, */
         /* a default initial seed is used     */
-        if (mti == NN+1) 
-            init_genrand64(5489ULL); 
+        if (mti == NN+1)
+            init_genrand64(5489ULL);
 
         for (i=0;i<NN-MM;i++) {
             x = (mt[i]&UM)|(mt[i+1]&LM);
@@ -136,7 +136,7 @@ unsigned long long genrand64_int64(void)
 
         mti = 0;
     }
-  
+
     x = mt[mti++];
 
     x ^= (x >> 29) & 0x5555555555555555ULL;
@@ -212,8 +212,9 @@ impl MersenneTwister64 {
         let mut mt = MersenneTwister64::new(19650218);
         let mut i = 1;
         let mut j = 0;
-        for _ in 0..std::cmp::max(NN,a.len()) {
-            mt.v[i] = (mt.v[i] ^ ((mt.v[i - 1] ^ (mt.v[i - 1] >> 62)).wrapping_mul(3935559000370003845u64)))
+        for _ in 0..std::cmp::max(NN, a.len()) {
+            mt.v[i] = (mt.v[i]
+                ^ ((mt.v[i - 1] ^ (mt.v[i - 1] >> 62)).wrapping_mul(3935559000370003845u64)))
                 + a[j]
                 + TryInto::<u64>::try_into(j).unwrap(); // non linear
             j = (j + 1) % a.len();
@@ -223,8 +224,9 @@ impl MersenneTwister64 {
                 i = 1;
             }
         }
-        for _ in 0..NN-1 {
-            mt.v[i] = (mt.v[i] ^ ((mt.v[i - 1] ^ (mt.v[i - 1] >> 62)).wrapping_mul(2862933555777941757)))
+        for _ in 0..NN - 1 {
+            mt.v[i] = (mt.v[i]
+                ^ ((mt.v[i - 1] ^ (mt.v[i - 1] >> 62)).wrapping_mul(2862933555777941757)))
                 - TryInto::<u64>::try_into(i).unwrap(); /* non linear */
             i += 1;
             if i >= NN {
@@ -239,34 +241,34 @@ impl MersenneTwister64 {
     // return a random number on [0, 2^64-1]
     pub fn genrand(&mut self) -> u64 {
         const MM: usize = 156;
-        const UM: u64 = 0xFFFFFFFF80000000; // Most significant 33 bits
-        const LM: u64 = 0x7FFFFFFF; // Least significant 31 bits
-        const MAG01: [u64;2] = [0, 0xB5026F5AA96619E9];
-        let mut x;
+        const UPPER_MASK: u64 = 0xFFFFFFFF80000000; // Most significant 33 bits
+        const LOWER_MASK: u64 = 0x7FFFFFFF; // Least significant 31 bits
+        const MAG01: [u64; 2] = [0, 0xB5026F5AA96619E9];
 
         if self.i >= NN {
-            // generate next NN words 
-            for i in 0..NN-MM {
-                x = (self.v[i] & UM) | (self.v[i + 1] & LM);
+            // generate next NN words
+            for i in 0..NN - MM {
+                let x = (self.v[i] & UPPER_MASK) | (self.v[i + 1] & LOWER_MASK);
                 self.v[i] = self.v[i + MM] ^ (x >> 1) ^ MAG01[(x & 1) as usize];
             }
-            for i in NN-MM..NN-1 {
-                x = (self.v[i] & UM) | (self.v[i + 1] & LM);
+            for i in NN - MM..NN {
+                let x = (self.v[i] & UPPER_MASK) | (self.v[(i + 1) % NN] & LOWER_MASK);
                 self.v[i] = self.v[i + MM - NN] ^ (x >> 1) ^ MAG01[(x & 1) as usize];
             }
-
-            x = (self.v[NN - 1] & UM) | (self.v[0] & LM);
-            self.v[NN - 1] = self.v[MM - 1] ^ (x >> 1) ^ MAG01[(x & 1) as usize];
             self.i = 0;
         }
 
-        x = self.v[self.i];
+        let mut x = self.v[self.i];
         self.i += 1;
 
-        x ^= (x >> 29) & 0x5555555555555555;
-        x ^= (x << 17) & 0x71D67FFFEDA60000;
-        x ^= (x << 37) & 0xFFF7EEE000000000;
-        x ^= x >> 43;
+//        x ^= (x >> 29) & 0x5555555555555555;
+//        x ^= (x << 17) & 0x71D67FFFEDA60000;
+//        x ^= (x << 37) & 0xFFF7EEE000000000;
+//        x ^= x >> 43;
+        x ^= x.wrapping_shr(29) & 0x5555555555555555;
+        x ^= x.wrapping_shl(17) & 0x71D67FFFEDA60000;
+        x ^= x.wrapping_shl(37) & 0xFFF7EEE000000000;
+        x ^= x.wrapping_shr(43);
         x
     }
 
@@ -283,7 +285,6 @@ impl MersenneTwister64 {
         ((self.genrand() >> 12) as f64 + 0.5) * (1.0 / 4503599627370496.0)
     }
 }
-
 
 fn main() {
     let mut mt =
