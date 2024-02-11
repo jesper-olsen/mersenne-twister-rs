@@ -246,30 +246,25 @@ impl MersenneTwister64 {
         const MAG01: [u64; 2] = [0, 0xB5026F5AA96619E9];
 
         if self.i >= NN {
-            // generate next NN words
-            for i in 0..NN - MM {
+            // Generate next NN words
+            for i in 0..(NN - MM) {
                 let x = (self.v[i] & UPPER_MASK) | (self.v[i + 1] & LOWER_MASK);
                 self.v[i] = self.v[i + MM] ^ (x >> 1) ^ MAG01[(x & 1) as usize];
             }
-            for i in NN - MM..NN {
+            for i in (NN - MM)..NN {
                 let x = (self.v[i] & UPPER_MASK) | (self.v[(i + 1) % NN] & LOWER_MASK);
                 self.v[i] = self.v[i + MM - NN] ^ (x >> 1) ^ MAG01[(x & 1) as usize];
             }
             self.i = 0;
         }
 
-        let mut x = self.v[self.i];
+        let x = self.v[self.i];
         self.i += 1;
 
-//        x ^= (x >> 29) & 0x5555555555555555;
-//        x ^= (x << 17) & 0x71D67FFFEDA60000;
-//        x ^= (x << 37) & 0xFFF7EEE000000000;
-//        x ^= x >> 43;
         x ^= x.wrapping_shr(29) & 0x5555555555555555;
         x ^= x.wrapping_shl(17) & 0x71D67FFFEDA60000;
         x ^= x.wrapping_shl(37) & 0xFFF7EEE000000000;
-        x ^= x.wrapping_shr(43);
-        x
+        x ^ x.wrapping_shr(43)
     }
 
     // generates a random number on [0,1]-real-interval
