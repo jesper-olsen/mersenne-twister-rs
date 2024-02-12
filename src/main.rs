@@ -268,6 +268,15 @@ impl MersenneTwister64 {
         x ^ x.wrapping_shr(43)
     }
 
+    pub fn genrand_array<const N: usize>(&mut self) -> Box<[u64; N]> {
+        // start with Vec to avoid stack allocation at any point
+        let mut a = vec![0; N];  
+        for x in a.iter_mut() { 
+           *x = self.genrand();
+        }
+        a.try_into().unwrap()
+    }
+
     // generates a random number on [0,1]-real-interval
     pub fn genrand_real1(&mut self) -> f64 {
         (self.genrand() >> 11) as f64 * (1.0 / 9007199254740991.0)
@@ -284,11 +293,11 @@ impl MersenneTwister64 {
 
 fn main() {
     let mut mt =
-        //MersenneTwister64::new(42);
+        //MersenneTwister64::new(43);
         MersenneTwister64::new_init_by_array(&[0x12345, 0x23456, 0x34567, 0x45678]);
 
-    for _ in 0..1000 {
-        println!("{:>20}", mt.genrand());
+    for x in mt.genrand_array::<1000>().iter() {
+        println!("{:>20}", x);
     }
 
     for _ in 0..1000 {
