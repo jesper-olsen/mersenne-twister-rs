@@ -3,7 +3,7 @@ mersenne-twister-rs
 
 Pseudo random number generator [1] based on the 64-bit Mersenne Twister [2][3].
 Numerically compatible with Takuji Nishimura and Makoto Matsumoto's C reference implementation
-(MT19937-64, 2004/9/29 version) [4].
+(MT19937-64, 2004/9/29) [4].
 
 References
 ----------
