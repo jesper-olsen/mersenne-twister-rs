@@ -112,6 +112,12 @@ impl MersenneTwister64 {
     }
 }
 
+/// convert u64 to a float in the range [0,1[
+pub const fn u64_to_f64(x: u64) -> f64 {
+    // shift x because of mantissa bits
+    (x >> 11) as f64 * (1.0 / 9007199254740992.0)
+}
+
 pub const fn genrand_matrix<const NROWS: usize, const NCOLS: usize>(
     seed: u64,
 ) -> [[u64; NCOLS]; NROWS] {
