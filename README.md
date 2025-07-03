@@ -1,7 +1,7 @@
 mersenne-twister-rs
 ==============
 
-Pseudo random number generator [1] based on the 64-bit Mersenne Twister [2][3].
+Pseudo Random Number Generator (PRNG) [1] based on the 64-bit Mersenne Twister [2][3].
 Numerically compatible with Takuji Nishimura and Makoto Matsumoto's C reference implementation
 (MT19937-64, 2004/9/29) [4].
 
@@ -17,7 +17,7 @@ Run
 -----
 
 ```
-% cargo run 
+% cargo run --release --bin main
 
  7266447313870364031
  4946485549665804864
