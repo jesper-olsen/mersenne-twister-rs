@@ -6,6 +6,22 @@
 //! http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c
 //! and included intact in README_C.txt
 
+use rand_core::RngCore;
+
+impl RngCore for MersenneTwister64 {
+    fn next_u32(&mut self) -> u32 {
+        (self.next_u64() >> 32) as u32
+    }
+
+    fn next_u64(&mut self) -> u64 {
+        self.genrand()
+    }
+
+    fn fill_bytes(&mut self, dest: &mut [u8]) {
+        rand_core::impls::fill_bytes_via_next(self, dest)
+    }
+}
+
 const NN: usize = 312;
 const MM: usize = 156;
 const UPPER_MASK: u64 = 0xFFFFFFFF80000000; // Most significant 33 bits

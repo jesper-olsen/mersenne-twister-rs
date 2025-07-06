@@ -1,4 +1,5 @@
 use mersenne_twister_rs::*;
+use rand::Rng;
 
 fn main() {
     //const RMAT: [[u64; 4]; 5] = genrand_matrix::<5, 4>(42);
@@ -26,7 +27,8 @@ fn main() {
 
     println!("\n500 u64");
     for _ in 0..500 {
-        println!("{:>20}", mt.genrand());
+        //println!("{:>20}", mt.genrand());
+        println!("{:>20}", mt.random::<u64>());
     }
 
     println!("\nconst 500 u64 array");
