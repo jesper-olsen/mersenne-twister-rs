@@ -6,19 +6,32 @@
 //! http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c
 //! and included intact in README_C.txt
 
-use rand_core::RngCore;
+use rand_core::TryRng;
+use std::convert::Infallible;
 
-impl RngCore for MersenneTwister64 {
-    fn next_u32(&mut self) -> u32 {
-        (self.next_u64() >> 32) as u32
+impl TryRng for MersenneTwister64 {
+    type Error = Infallible;
+
+    fn try_next_u32(&mut self) -> Result<u32, Infallible> {
+        Ok((self.genrand() >> 32) as u32)
     }
 
-    fn next_u64(&mut self) -> u64 {
-        self.genrand()
+    fn try_next_u64(&mut self) -> Result<u64, Infallible> {
+        Ok(self.genrand())
     }
 
-    fn fill_bytes(&mut self, dest: &mut [u8]) {
-        rand_core::impls::fill_bytes_via_next(self, dest)
+    fn try_fill_bytes(&mut self, dest: &mut [u8]) -> Result<(), Infallible> {
+        let mut pos = 0;
+        while pos + 8 <= dest.len() {
+            dest[pos..pos + 8].copy_from_slice(&self.genrand().to_le_bytes());
+            pos += 8;
+        }
+        if pos < dest.len() {
+            let remaining = self.genrand().to_le_bytes();
+            let remaining_len = dest.len() - pos;
+            dest[pos..].copy_from_slice(&remaining[..remaining_len]);
+        }
+        Ok(())
     }
 }
 

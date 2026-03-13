@@ -1,5 +1,5 @@
 use mersenne_twister_rs::*;
-use rand::Rng;
+use rand::RngExt;
 
 fn main() {
     //const RMAT: [[u64; 4]; 5] = genrand_matrix::<5, 4>(42);
