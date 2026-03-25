@@ -46,6 +46,12 @@ pub struct MersenneTwister64 {
     i: usize,
 }
 
+impl Default for MersenneTwister64 {
+    fn default() -> MersenneTwister64 {
+        Self::new(42)
+    }
+}
+
 impl MersenneTwister64 {
     pub const fn new(seed: u64) -> Self {
         let mut v = [0; NN];
