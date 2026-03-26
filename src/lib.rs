@@ -6,6 +6,7 @@
 //! http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/VERSIONS/C-LANG/mt19937-64.c
 //! and included intact in README_C.txt
 
+use rand::SeedableRng;
 use rand_core::TryRng;
 use std::convert::Infallible;
 
@@ -34,6 +35,23 @@ impl TryRng for MersenneTwister64 {
         Ok(())
     }
 }
+
+impl SeedableRng for MersenneTwister64 {
+    type Seed = [u8; 8]; // 64-bit seed = 8 bytes
+
+    fn from_seed(seed: Self::Seed) -> Self {
+        Self::new(u64::from_le_bytes(seed))
+    }
+
+    fn from_rng<R: rand_core::Rng + ?Sized>(rng: &mut R) -> Self {
+        let mut seed = [0u64; NN];
+        for s in seed.iter_mut() {
+            *s = rng.next_u64();
+        }
+        Self::new_init_by_array(&seed)
+    }
+}
+
 
 const NN: usize = 312;
 const MM: usize = 156;
