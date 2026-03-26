@@ -47,21 +47,26 @@ pub struct MersenneTwister64 {
 }
 
 impl Default for MersenneTwister64 {
-    fn default() -> MersenneTwister64 {
-        Self::new(42)
+    #[inline]
+    fn default() -> Self {
+        Self::new(Self::DEFAULT_SEED)
     }
 }
 
 impl MersenneTwister64 {
+    pub const DEFAULT_SEED: u64 = 5489; // Standard MT19937 
+
     pub const fn new(seed: u64) -> Self {
-        let mut v = [0; NN];
+        let mut v = [0u64; NN];
         v[0] = seed;
+        
         let mut i = 1;
         while i < NN {
-            //for i in 1..NN {
-            v[i] = (v[i - 1] ^ (v[i - 1] >> 62)).wrapping_mul(6364136223846793005) + i as u64;
+            let prev = v[i - 1];
+            v[i] = (prev ^ (prev >> 62)).wrapping_mul(6364136223846793005).wrapping_add(i as u64);
             i += 1;
         }
+        
         MersenneTwister64 { v, i: NN }
     }
 
